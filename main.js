@@ -30,27 +30,55 @@ const printStacks = () => {
 }
 
 // Next, what do you think this function should do?
-const movePiece = () => {
+const movePiece = (startStack,endStack) => {
   // Your code here
+  //need to pop off startStack 
+  let piece= stacks[startStack].pop()
+  //and push to endStack
+  stacks[endStack].push(piece)
+
 
 }
 
 // Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
+const isLegal = (startStack,endStack) => {
   // Your code here
-
+  // if endStack is empty, automatically legal
+  //if endStack is occupied, current piece must be smaller than other piece
+if (stacks[startStack].slice(-1)<stacks[endStack].slice(-1)||stacks[endStack]==0){
+  return true;
+} else{
+   return false;
+}
 }
 
 // What is a win in Towers of Hanoi? When should this function run?
+// this function should check to see if stack c has a value of 4,3,2,1
 const checkForWin = () => {
   // Your code here
-
+  if
+  (stacks["c"].length==4){
+    return true;
+  } 
+  else {
+    return false;
+  }
 }
 
 // When is this function called? What should it do with its argument?
+//this function should check if a move is legal, move piece, and check for win
 const towersOfHanoi = (startStack, endStack) => {
   // Your code here
-
+if (isLegal(startStack,endStack))
+{
+  movePiece(startStack,endStack)
+}
+else {
+  return console.log('Cannot move there, try again')
+}
+if (checkForWin()) {
+  return console.log("You win!")
+}
 }
 
 const getPrompt = () => {
@@ -94,7 +122,7 @@ if (typeof describe === 'function') {
   });
   describe('#checkForWin()', () => {
     it('should detect a win', () => {
-      stacks = { a: [], b: [4, 3, 2, 1], c: [] };
+      stacks = { a: [], b: [], c: [4, 3, 2, 1] };
       assert.equal(checkForWin(), true);
       stacks = { a: [1], b: [4, 3, 2], c: [] };
       assert.equal(checkForWin(), false);
